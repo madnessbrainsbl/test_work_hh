@@ -1,0 +1,40 @@
+<div class="auth-container">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+    <h2>Вход</h2>
+    
+    <div *ngIf="errorMessage" class="error-alert">
+      {{ errorMessage }}
+    </div>
+    
+    <div class="info-alert">
+      Для тестового входа используйте:<br>
+      Email: eve.holt&#64;reqres.in<br>
+      Password: cityslicka
+    </div>
+    
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input id="email" type="email" formControlName="email" class="form-control">
+      <div class="error-message" *ngIf="loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched">
+        Email обязателен
+      </div>
+      <div class="error-message" *ngIf="loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched">
+        Введите корректный email
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Пароль:</label>
+      <input id="password" type="password" formControlName="password" class="form-control">
+      <div class="error-message" *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched">
+        Пароль обязателен
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="!loginForm.valid" class="submit-btn">Войти</button>
+    
+    <div class="auth-links">
+      <p>Нет аккаунта? <a routerLink="/register">Зарегистрироваться</a></p>
+    </div>
+  </form>
+</div>
