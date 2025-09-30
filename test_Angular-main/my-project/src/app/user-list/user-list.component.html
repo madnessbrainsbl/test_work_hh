@@ -1,0 +1,12 @@
+<h2>Users</h2>
+<div *ngFor="let user of users" class="user-item">
+  <div (click)="viewUser(user.id)">
+    {{ user.first_name }} {{ user.last_name }}
+  </div>
+  <button (click)="onDeleteUser(user.id)">Delete</button>
+</div>
+
+<h2>Resources</h2>
+<div *ngFor="let resource of resources">
+  {{ resource.name }} ({{ resource.year }})
+</div>

@@ -1,0 +1,37 @@
+<div class="auth-container">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+    <h2>Регистрация</h2>
+    
+    <div *ngIf="errorMessage" class="error-alert">
+      {{ errorMessage }}
+    </div>
+    
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input id="email" type="email" formControlName="email" class="form-control">
+      <div class="error-message" *ngIf="registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched">
+        Email обязателен
+      </div>
+      <div class="error-message" *ngIf="registerForm.get('email')?.errors?.['email'] && registerForm.get('email')?.touched">
+        Введите корректный email
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Пароль:</label>
+      <input id="password" type="password" formControlName="password" class="form-control">
+      <div class="error-message" *ngIf="registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched">
+        Пароль обязателен
+      </div>
+      <div class="error-message" *ngIf="registerForm.get('password')?.errors?.['minlength'] && registerForm.get('password')?.touched">
+        Пароль должен содержать минимум 6 символов
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="!registerForm.valid" class="submit-btn">Зарегистрироваться</button>
+    
+    <div class="auth-links">
+      <p>Уже есть аккаунт? <a routerLink="/login">Войти</a></p>
+    </div>
+  </form>
+</div>

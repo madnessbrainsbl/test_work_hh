@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>Бей</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="game">
+      <!-- Стартовый экран -->
+      <div id="start-screen" class="screen">
+        <img src="Стартовый экран.png" alt="Start Screen" class="full-screen" />
+        <button id="start-button" class="start-button">Новая игра</button>
+      </div>
+
+      <!-- Игровой экран -->
+      <div id="game-screen" class="screen hidden">
+        <img
+          src="Ожидание удара.png"
+          alt="Waiting for hit"
+          class="full-screen"
+        />
+        <!-- Силомер -->
+        <div id="power-container">
+          <img src="scale-1.png" alt="Scale BG" class="scale-bg" />
+          <img src="scale.png" alt="Scale" class="scale" />
+          <div id="power-level" class="power-level"></div>
+        </div>
+        <!-- Молот -->
+        <img id="hammer" src="hammer.png" alt="Hammer" class="hammer hidden" />
+        <button id="hit-area" class="hit-area">УДАР!</button>
+      </div>
+
+      <!-- Экран результата -->
+      <div id="result-screen" class="screen hidden">
+        <img id="result-image" src="" alt="Result" class="full-screen" />
+        <button id="new-game-button" class="new-game-button">Новая игра</button>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
