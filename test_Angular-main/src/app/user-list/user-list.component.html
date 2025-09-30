@@ -1,0 +1,22 @@
+<div class="container">
+  <h2>Users</h2>
+  <div class="users-grid">
+    <div *ngFor="let user of users" class="user-card">
+      <img [src]="user.avatar" alt="User avatar" class="user-avatar">
+      <div class="user-info" (click)="viewUser(user.id)">
+        <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+        <p>{{ user.email }}</p>
+      </div>
+      <button (click)="onDeleteUser(user.id)" class="delete-btn">Delete</button>
+    </div>
+  </div>
+
+  <h2>Resources</h2>
+  <div class="resources-grid">
+    <div *ngFor="let resource of resources" class="resource-card">
+      <h3>{{ resource.name }}</h3>
+      <p>Year: {{ resource.year }}</p>
+      <p>Color: <span [style.background-color]="resource.color" class="color-box"></span></p>
+    </div>
+  </div>
+</div>

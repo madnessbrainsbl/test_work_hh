@@ -1,0 +1,224 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  width: 360px;
+  height: 640px;
+  margin: auto;
+  overflow: hidden;
+}
+#game {
+  width: 360px;
+  height: 640px;
+  position: relative;
+}
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.hidden {
+  display: none;
+}
+.full-screen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: auto;
+}
+/* Кнопки НОВАЯ ИГРА */
+.start-button,
+.new-game-button {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 62px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 0;
+  z-index: 100;
+}
+/* Стартовый экран: позиция кнопки */
+#start-screen .start-button {
+  bottom: 130px;
+}
+/* Экран результата: позиция кнопки */
+#result-screen .new-game-button {
+  bottom: 50px;
+}
+/* Специальная позиция для стартового экрана */
+.start-button {
+  bottom: 80px !important;
+}
+/* Убираем фоновые правила, теперь это <img> */
+#hammer {
+  position: absolute;
+  left: 50%;
+  bottom: 190px;
+  transform: translateX(-50%) rotate(-90deg);
+  width: 100px;
+  z-index: 50;
+}
+#hammer.hidden {
+  display: none;
+}
+@keyframes hit {
+  0% {
+    transform: translateX(-50%) rotate(90deg) translateY(0);
+  }
+  70% {
+    transform: translateX(-50%) rotate(-90deg) translateY(60px);
+  }
+  100% {
+    transform: translateX(-50%) rotate(-90deg) translateY(10px);
+  }
+}
+
+#game-screen p,
+p.instruction,
+.instruction {
+  display: none !important;
+}
+/* Шкала силы */
+#power-container {
+  position: absolute;
+  top: 378px;
+  left: 15px;
+  width: 60px;
+  height: 200px;
+  background: none;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.scale,
+.scale-bg {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 85%;
+  bottom: 0;
+  top: auto;
+}
+
+.scale {
+  z-index: 1;
+}
+
+.scale-bg {
+  background: url("scale-1.png") no-repeat center bottom;
+  background-size: contain;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.power-level {
+  position: absolute;
+  left: 6px;
+  bottom: 5px;
+  width: 48px;
+  height: 10%;
+  background: #00d355;
+  transition: height 0.1s linear;
+  z-index: 2;
+  max-height: calc(85% - 10px);
+}
+
+/* Белая черта */
+#power-container::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #fff;
+  border-radius: 1px;
+  bottom: 0;
+  z-index: 10;
+}
+
+/* Прозрачная зона клика по жёлтой панели */
+.hit-button {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 60px;
+  background: url("button.png") no-repeat center center;
+  background-size: contain;
+  border: none;
+  cursor: pointer;
+  z-index: 20;
+  pointer-events: auto;
+}
+.hit-button:active {
+  background: url("button_active.png") no-repeat center center;
+  background-size: contain;
+}
+
+#game:after {
+  content: "";
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 60px;
+  background: transparent;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.hit-area {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 62px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  font-size: 0;
+  color: transparent;
+  font-weight: normal;
+  z-index: 20;
+  cursor: pointer;
+  box-shadow: none;
+  transition: none;
+}
+.hit-area:active {
+  background: transparent;
+}
+
+.spark {
+  position: absolute;
+  left: 50%;
+  bottom: 140px;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 100;
+  background: url("spark.png") no-repeat center center;
+  background-size: contain;
+  opacity: 1;
+  animation: spark-fade 0.5s linear forwards;
+}
+
+@keyframes spark-fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

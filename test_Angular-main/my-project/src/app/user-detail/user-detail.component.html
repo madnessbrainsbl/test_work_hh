@@ -1,0 +1,10 @@
+<div *ngIf="user">
+    <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+    <p>Email: {{ user.email }}</p>
+  </div>
+  
+  <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+    <input formControlName="name" placeholder="Name">
+    <input formControlName="job" placeholder="Job">
+    <button type="submit">Update</button>
+  </form>
