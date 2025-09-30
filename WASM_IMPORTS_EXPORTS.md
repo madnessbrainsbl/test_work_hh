@@ -1,0 +1,143 @@
+# WASM Импорты/Экспорты
+
+- Всего импортов: 120
+- Всего экспортов: 13
+
+## Импорты
+- [0] module="a", name="a", kind=function
+- [1] module="a", name="b", kind=function
+- [2] module="a", name="c", kind=function
+- [3] module="a", name="d", kind=function
+- [4] module="a", name="e", kind=function
+- [5] module="a", name="f", kind=function
+- [6] module="a", name="g", kind=function
+- [7] module="a", name="h", kind=function
+- [8] module="a", name="i", kind=function
+- [9] module="a", name="j", kind=function
+- [10] module="a", name="k", kind=function
+- [11] module="a", name="l", kind=function
+- [12] module="a", name="m", kind=function
+- [13] module="a", name="n", kind=function
+- [14] module="a", name="o", kind=function
+- [15] module="a", name="p", kind=function
+- [16] module="a", name="q", kind=function
+- [17] module="a", name="r", kind=function
+- [18] module="a", name="s", kind=function
+- [19] module="a", name="t", kind=function
+- [20] module="a", name="u", kind=function
+- [21] module="a", name="v", kind=function
+- [22] module="a", name="w", kind=function
+- [23] module="a", name="x", kind=function
+- [24] module="a", name="y", kind=function
+- [25] module="a", name="z", kind=function
+- [26] module="a", name="A", kind=function
+- [27] module="a", name="B", kind=function
+- [28] module="a", name="C", kind=function
+- [29] module="a", name="D", kind=function
+- [30] module="a", name="E", kind=function
+- [31] module="a", name="F", kind=function
+- [32] module="a", name="G", kind=function
+- [33] module="a", name="H", kind=function
+- [34] module="a", name="I", kind=function
+- [35] module="a", name="J", kind=function
+- [36] module="a", name="K", kind=function
+- [37] module="a", name="L", kind=function
+- [38] module="a", name="M", kind=function
+- [39] module="a", name="N", kind=function
+- [40] module="a", name="O", kind=function
+- [41] module="a", name="P", kind=function
+- [42] module="a", name="Q", kind=function
+- [43] module="a", name="R", kind=function
+- [44] module="a", name="S", kind=function
+- [45] module="a", name="T", kind=function
+- [46] module="a", name="U", kind=function
+- [47] module="a", name="V", kind=function
+- [48] module="a", name="W", kind=function
+- [49] module="a", name="X", kind=function
+- [50] module="a", name="Y", kind=function
+- [51] module="a", name="Z", kind=function
+- [52] module="a", name="_", kind=function
+- [53] module="a", name="$", kind=function
+- [54] module="a", name="aa", kind=function
+- [55] module="a", name="ba", kind=function
+- [56] module="a", name="ca", kind=function
+- [57] module="a", name="da", kind=function
+- [58] module="a", name="ea", kind=function
+- [59] module="a", name="fa", kind=function
+- [60] module="a", name="ga", kind=function
+- [61] module="a", name="ha", kind=function
+- [62] module="a", name="ia", kind=function
+- [63] module="a", name="ja", kind=function
+- [64] module="a", name="ka", kind=function
+- [65] module="a", name="la", kind=function
+- [66] module="a", name="ma", kind=function
+- [67] module="a", name="na", kind=function
+- [68] module="a", name="oa", kind=function
+- [69] module="a", name="pa", kind=function
+- [70] module="a", name="qa", kind=function
+- [71] module="a", name="ra", kind=function
+- [72] module="a", name="sa", kind=function
+- [73] module="a", name="ta", kind=function
+- [74] module="a", name="ua", kind=function
+- [75] module="a", name="va", kind=function
+- [76] module="a", name="wa", kind=function
+- [77] module="a", name="xa", kind=function
+- [78] module="a", name="ya", kind=function
+- [79] module="a", name="za", kind=function
+- [80] module="a", name="Aa", kind=function
+- [81] module="a", name="Ba", kind=function
+- [82] module="a", name="Ca", kind=function
+- [83] module="a", name="Da", kind=function
+- [84] module="a", name="Ea", kind=function
+- [85] module="a", name="Fa", kind=function
+- [86] module="a", name="Ga", kind=function
+- [87] module="a", name="Ha", kind=function
+- [88] module="a", name="Ia", kind=function
+- [89] module="a", name="Ja", kind=function
+- [90] module="a", name="Ka", kind=function
+- [91] module="a", name="La", kind=function
+- [92] module="a", name="Ma", kind=function
+- [93] module="a", name="Na", kind=function
+- [94] module="a", name="Oa", kind=function
+- [95] module="a", name="Pa", kind=function
+- [96] module="a", name="Qa", kind=function
+- [97] module="a", name="Ra", kind=function
+- [98] module="a", name="Sa", kind=function
+- [99] module="a", name="Ta", kind=function
+- [100] module="a", name="Ua", kind=function
+- [101] module="a", name="Va", kind=function
+- [102] module="a", name="Wa", kind=function
+- [103] module="a", name="Xa", kind=function
+- [104] module="a", name="Ya", kind=function
+- [105] module="a", name="Za", kind=function
+- [106] module="a", name="_a", kind=function
+- [107] module="a", name="$a", kind=function
+- [108] module="a", name="ab", kind=function
+- [109] module="a", name="bb", kind=function
+- [110] module="a", name="cb", kind=function
+- [111] module="a", name="db", kind=function
+- [112] module="a", name="eb", kind=function
+- [113] module="a", name="fb", kind=function
+- [114] module="a", name="gb", kind=function
+- [115] module="a", name="hb", kind=function
+- [116] module="a", name="ib", kind=function
+- [117] module="a", name="jb", kind=function
+- [118] module="a", name="kb", kind=function
+- [119] module="a", name="lb", kind=function
+
+## Экспорты
+- [0] name="mb", kind=function
+- [1] name="nb", kind=function
+- [2] name="ob", kind=function
+- [3] name="pb", kind=function
+- [4] name="qb", kind=function
+- [5] name="rb", kind=function
+- [6] name="sb", kind=table
+- [7] name="tb", kind=function
+- [8] name="ub", kind=function
+- [9] name="vb", kind=function
+- [10] name="wb", kind=function
+- [11] name="xb", kind=function
+- [12] name="yb", kind=memory
+
+Подсказка: модуль импортов часто называется "a" (см. { a: DI } в deobfuscated.js), что соответствует вызовам DI.* из JS.

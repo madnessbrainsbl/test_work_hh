@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WASM Импорты/Экспорты — Инспектор (локальный)</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
+    h1 { margin-top: 0; }
+    .card { border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    .row { margin: 8px 0; }
+    input[type="file"] { padding: 8px; }
+    button { padding: 8px 12px; border: 1px solid #444; border-radius: 6px; background: #111; color: #fff; cursor: pointer; }
+    button.secondary { background: #666; }
+    pre { background: #f7f7f8; padding: 12px; border-radius: 6px; overflow: auto; max-height: 420px; }
+    .muted { color: #666; font-size: 12px; }
+    .ok { color: #0a7f2e; }
+    .err { color: #b00020; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <h1>Инспектор WASM импортов/экспортов (локально, без Node)</h1>
+  <div class="card">
+    <div class="row">Загрузите файл <b>wasm.txt</b> (base64) из <code>hCaptcha-hsv-Deobfuscator/</code> или готовый бинарь <b>.wasm</b>.</div>
+    <div class="row"><input id="file" type="file" accept=".txt,.wasm" /></div>
+    <div class="row"><span id="status" class="muted">Ожидание файла...</span></div>
+    <div class="row">
+      <button id="btnDownload" class="secondary" disabled>Скачать WASM_IMPORTS_EXPORTS.md</button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Импорты</h3>
+      <pre id="imports">—</pre>
+    </div>
+    <div class="card">
+      <h3>Экспорты</h3>
+      <pre id="exports">—</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Markdown (предпросмотр)</h3>
+    <pre id="md">—</pre>
+  </div>
+
+<script>
+(function(){
+  const $file = document.getElementById('file');
+  const $status = document.getElementById('status');
+  const $imports = document.getElementById('imports');
+  const $exports = document.getElementById('exports');
+  const $md = document.getElementById('md');
+  const $btnDownload = document.getElementById('btnDownload');
+
+  let lastMd = '';
+
+  function setStatus(msg, ok=false) {
+    $status.textContent = msg;
+    $status.className = ok ? 'ok' : 'err';
+  }
+
+  function toUint8ArrayFromBase64(b64) {
+    // Нормализация: удалить пробелы/переводы строк/табуляции
+    b64 = (b64||'').trim().replace(/[\r\n\t ]+/g, '');
+    // Если внутри кавычки — вытащим строку
+    const m = b64.match(/"([A-Za-z0-9+/=]+)"/);
+    if (m) b64 = m[1];
+    const bin = atob(b64);
+    const len = bin.length;
+    const bytes = new Uint8Array(len);
+    for (let i=0;i<len;i++){ bytes[i] = bin.charCodeAt(i) & 0xFF; }
+    return bytes;
+  }
+
+  function isWasm(buf) {
+    return buf && buf.length >= 4 && buf[0]===0x00 && buf[1]===0x61 && buf[2]===0x73 && buf[3]===0x6D; // "\0asm"
+  }
+
+  function asMarkdown(imports, exports) {
+    const lines = [];
+    lines.push('# WASM Импорты/Экспорты');
+    lines.push('');
+    lines.push(`- Всего импортов: ${imports.length}`);
+    lines.push(`- Всего экспортов: ${exports.length}`);
+    lines.push('');
+    lines.push('## Импорты');
+    for (let i=0;i<imports.length;i++){
+      const it = imports[i];
+      lines.push(`- [${i}] module="${it.module}", name="${it.name}", kind=${it.kind||'func'}`);
+    }
+    lines.push('');
+    lines.push('## Экспорты');
+    for (let i=0;i<exports.length;i++){
+      const it = exports[i];
+      lines.push(`- [${i}] name="${it.name}", kind=${it.kind||'func'}`);
+    }
+    lines.push('');
+    lines.push('Подсказка: модуль импортов часто называется "a" (см. { a: DI } в deobfuscated.js), что соответствует вызовам DI.* из JS.');
+    return lines.join('\n');
+  }
+
+  function download(filename, text) {
+    const blob = new Blob([text], {type: 'text/markdown;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(()=>{
+      URL.revokeObjectURL(url);
+      a.remove();
+    }, 0);
+  }
+
+  async function handleFile(file) {
+    $imports.textContent = '—';
+    $exports.textContent = '—';
+    $md.textContent = '—';
+    $btnDownload.disabled = true;
+    setStatus('Обработка...', true);
+
+    try {
+      let bytes;
+      if (/\.wasm$/i.test(file.name)) {
+        const buf = await file.arrayBuffer();
+        bytes = new Uint8Array(buf);
+      } else {
+        const text = await file.text();
+        bytes = toUint8ArrayFromBase64(text);
+      }
+
+      if (!isWasm(bytes)) {
+        setStatus('Файл не похож на wasm (нет сигнатуры "\\0asm")');
+        return;
+      }
+
+      let mod;
+      try {
+        mod = new WebAssembly.Module(bytes);
+      } catch (e) {
+        setStatus('Ошибка при создании WebAssembly.Module: ' + e.message);
+        return;
+      }
+
+      const imports = WebAssembly.Module.imports(mod) || [];
+      const exports = WebAssembly.Module.exports(mod) || [];
+
+      // Отрисовка
+      $imports.textContent = imports.map((it, i)=>`${i}. module="${it.module}", name="${it.name}", kind=${it.kind||'func'}`).join('\n') || '—';
+      $exports.textContent = exports.map((it, i)=>`${i}. name="${it.name}", kind=${it.kind||'func'}`).join('\n') || '—';
+
+      lastMd = asMarkdown(imports, exports);
+      $md.textContent = lastMd;
+      $btnDownload.disabled = false;
+      setStatus('Готово', true);
+    } catch (err) {
+      setStatus('Ошибка: ' + err.message);
+    }
+  }
+
+  $file.addEventListener('change', (e)=>{
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    handleFile(f);
+  });
+
+  $btnDownload.addEventListener('click', ()=>{
+    if (!lastMd) return;
+    download('WASM_IMPORTS_EXPORTS.md', lastMd);
+  });
+})();
+</script>
+</body>
+</html>
